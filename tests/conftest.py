@@ -7,7 +7,8 @@ from fastapi.testclient import TestClient
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import sessionmaker
 
-os.environ["DATABASE_URL"] = "sqlite:///./test.db"
+TEST_DB_URL = os.environ.get("TEST_DATABASE_URL", "sqlite:///./test.db")
+os.environ["DATABASE_URL"] = TEST_DB_URL
 
 from api.database import Base, get_db
 from api.main import app
@@ -20,7 +21,8 @@ from pipeline.extractor import (
 
 # ── database setup ────────────────────────────────────────────────────────────
 
-engine = create_engine("sqlite:///./test.db", connect_args={"check_same_thread": False})
+_connect_args = {"check_same_thread": False} if TEST_DB_URL.startswith("sqlite") else {}
+engine = create_engine(TEST_DB_URL, connect_args=_connect_args)
 TestSession = sessionmaker(bind=engine)
 app.dependency_overrides[get_db] = lambda: (s := TestSession(), s)[1]
 
@@ -36,8 +38,10 @@ def setup():
         c.commit()
     yield
     Base.metadata.drop_all(engine)
-    if os.path.exists("test.db"):
-        os.remove("test.db")
+    if TEST_DB_URL.startswith("sqlite:///"):
+        db_path = TEST_DB_URL.replace("sqlite:///", "")
+        if db_path and os.path.exists(db_path):
+            os.remove(db_path)
 
 
 @pytest.fixture
