@@ -1,7 +1,7 @@
 import os
 from contextlib import contextmanager
 from sqlalchemy import create_engine, text
-from sqlalchemy.orm import DeclarativeBase, sessionmaker, Session
+from sqlalchemy.orm import DeclarativeBase, sessionmaker
 
 DB_HOST         = os.environ.get("DB_HOST", "localhost")
 DB_PORT         = os.environ.get("DB_PORT", "5432")

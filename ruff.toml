@@ -1,0 +1,19 @@
+target-version = "py311"
+line-length = 120
+
+[lint]
+select = ["E", "F", "W"]
+ignore = [
+    "E501",   # line too long — handled by formatter separately
+    "E401",   # multiple imports on one line — intentional compact style
+    "E402",   # module import not at top — required in conftest.py (env var set before app import)
+    "E701",   # multiple statements on one line (colon) — intentional in routers
+    "E702",   # multiple statements on one line (semicolon) — intentional in tests
+    "E712",   # == True comparison — required by SQLAlchemy ORM filter expressions
+]
+
+exclude = [
+    ".git",
+    ".pytest_cache",
+    "__pycache__",
+]

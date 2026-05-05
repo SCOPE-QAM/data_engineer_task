@@ -13,7 +13,7 @@ os.environ["DATABASE_URL"] = TEST_DB_URL
 from api.database import Base, get_db
 from api.main import app
 from api.models import (DimCompany, FactUpload, FactCompanySnapshot,
-                        FactScopeTimeseries, ProcessedFile)
+                        FactScopeTimeseries)
 from pipeline.extractor import (
     MasterSheetData, CompanyInfo, IndustryRisk, ReportingInfo,
     BusinessRiskProfile, FinancialRiskProfile, ScopeCreditMetric, FileMetadata,

@@ -3,7 +3,6 @@ from datetime import datetime, timezone
 from typing import Optional
 from sqlalchemy import BigInteger, Boolean, DateTime, ForeignKey, Integer, JSON, Numeric, String, Text
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy import JSON as _JSON
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from .database import Base
 

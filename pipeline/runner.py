@@ -29,7 +29,7 @@ def _process(filepath: str, run_id: int) -> dict:
         return {"status": "success", "filename": meta.filename,
                 "upload_id": upload.upload_id, "company": data.company_info.rated_entity,
                 "ms": upload.processing_ms}
-    except Exception as exc:
+    except Exception:
         session.rollback()
         raise
     finally:
@@ -105,10 +105,10 @@ if __name__ == "__main__":
                     session.commit()
                     run_id = run.run_id
                     session.close()
-    
+
                     result = _process(event.src_path, run_id=run_id)
                     log.info("Result: %s", result)
-    
+
                     session = SessionLocal()
                     pr = session.get(PipelineRun, run_id)
                     pr.completed_at = datetime.now(timezone.utc)
@@ -118,7 +118,7 @@ if __name__ == "__main__":
                     pr.quality_report = result
                     session.commit()
                     session.close()
-    
+
                 except Exception as exc:
                     log.error("Failed to process %s: %s", event.src_path, exc, exc_info=True)
 
