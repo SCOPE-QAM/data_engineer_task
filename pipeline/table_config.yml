@@ -1,0 +1,54 @@
+sheet: MASTER
+
+tables:
+  company_info:
+    rows: [1, 3]
+    fields:
+      rated_entity: "Rated entity"
+      corporate_sector: "CorporateSector"
+
+  rating_methodologies:
+    row: 4
+    start_col: 2
+
+  industry_risk:
+    rows: [6, 10]
+    fields:
+      industry_risk: "Industry risk"
+      industry_risk_score: "Industry risk score"
+      industry_weight: "Industry weight"
+      segmentation_criteria: "Segmentation criteria"
+
+  reporting_info:
+    rows: [11, 15]
+    fields:
+      reporting_currency: "Reporting Currency/Units"
+      country_of_origin: "Country of origin"
+      accounting_principles: "Accounting principles"
+      end_of_business_year: "End of business year"
+
+  business_risk:
+    rows: [17, 25]
+    fields:
+      business_risk_profile: "Business risk profile"
+      blended_industry_risk_profile: "(Blended) Industry risk profile"
+      competitive_positioning: "Competitive Positioning"
+      market_share: "Market share"
+      diversification: "Diversification"
+      operating_profitability: "Operating profitability"
+      sector_specific_factor_1: "Sector/company-specific factors (1)"
+      sector_specific_factor_2: "Sector/company-specific factors (2)"
+
+  financial_risk:
+    rows: [26, 31]
+    fields:
+      financial_risk_profile: "Financial risk profile"
+      leverage: "Leverage"
+      interest_cover: "Interest cover"
+      cash_flow_cover: "Cash flow cover"
+      liquidity: "Liquidity"
+
+  scope_metrics:
+    year_row: 34
+    data_rows: [35, 41]
+    start_col: 2
