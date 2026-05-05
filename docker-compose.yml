@@ -1,0 +1,42 @@
+version: "3.9"
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: credit_postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-credit_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-credit_pass}
+      POSTGRES_DB: ${POSTGRES_DB:-credit_ratings}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports: ["5432:5432"]
+    healthcheck:
+      test: ["CMD-SHELL","pg_isready -U ${POSTGRES_USER:-credit_user} -d ${POSTGRES_DB:-credit_ratings}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  api:
+    build: .
+    container_name: credit_api
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-credit_user}:${POSTGRES_PASSWORD:-credit_pass}@postgres:5432/${POSTGRES_DB:-credit_ratings}
+      DATA_DIR: /app/data
+      LOG_LEVEL: INFO
+    volumes:
+      - ./data:/app/data:ro
+    ports: ["8000:8000"]
+    healthcheck:
+      test: ["CMD-SHELL","curl -f http://localhost:8000/health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+
+volumes:
+  postgres_data:
